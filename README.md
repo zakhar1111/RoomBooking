@@ -18,4 +18,59 @@ the base price for the selected room type , and any extras.
 
 
 ## Data Design
+Room-Centric model
 ![roombooking](Hotel.png)
+
+## Trade-offs
+1. A hotel has many rooms
+   ```
+   Booking → Room
+   Room has no Hotel
+   ```
+   - room exist independently
+   - no hotel ownership
+   - bad for nulti-hotel systems
+
+2. Guest can make booking with dates and guest counts.
+   ```
+   Booking
+    - Guest
+    - Room
+    - CheckIn
+    - CheckOut
+    - Adults
+    - Kids
+   ```
+   
+   - support to specify date, number_of_people for the booking
+
+3. Guest can book multiple rooms
+   ```
+   Booking → Room
+   ```
+
+   - only one room through the booking
+  
+4. Room has a type/class.
+   ```
+   Room → RoomType
+   Room → RoomSize
+   ```
+
+   - Type and size split into separate concepts. ( this brings duplication)
+   - no single source of truth
+   - normilized not enough
+
+5. Rooms of same type share same features.
+   ```
+   Room → Feature
+   ```
+
+   - Each room has explicit features.
+   - Feature duplication. - duplication
+   - bad normalization
+  
+6. Room type has specific bed setup.
+
+   
+   
