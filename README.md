@@ -71,6 +71,39 @@ Room-Centric model
    - bad normalization
   
 6. Room type has specific bed setup.
+   ```
+   Room → RoomSize
+   ```
 
+   - confused room size with bed configuration: Cannot model: 2 single + 1 king
+  
+7. Room type has base price.
+   ``` Room.BasePrice ```
+
+   - Price belongs to individual room.
+   - bad normalization should be part of room type configuration  
    
-   
+8. Booking extras.
+
+   - Implicitly mixing into Feature. should be different concepts
+  
+9. Total booking price calculation.
+   ```
+   Booking.TotalPrice
+   Room.BasePrice
+   ```
+
+   - week amd limited, no extras, etc
+
+10. Paid/unpaid booking.
+   ```Booking → Payment → PayStatus```
+
+   - works, but better add date
+
+11. Room availability and cleaning.
+    ```Room → RoomStatus```
+
+    - works
+
+12. Guest info. - OK
+    
