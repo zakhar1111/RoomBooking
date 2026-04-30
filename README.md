@@ -17,8 +17,7 @@ the base price for the selected room type , and any extras.
 12. A guest will need to provide their name, email address, and phone number when making a booking
 
 
-## Data Design
-Room-Centric model
+## Data Design old
 ![roombooking](Hotel_old.png)
 
 ## Trade-offs
@@ -32,6 +31,7 @@ Room-Centric model
    - bad for nulti-hotel systems
 
 2. Guest can make booking with dates and guest counts.
+   
    ```
    Booking
     - Guest
@@ -40,18 +40,20 @@ Room-Centric model
     - CheckOut
     - Adults
     - Kids
+   
    ```
    
    - support to specify date, number_of_people for the booking
 
-3. Guest can book multiple rooms
+4. Guest can book multiple rooms
    ```
    Booking → Room
    ```
 
    - only one room through the booking
   
-4. Room has a type/class.
+5. Room has a type/class.
+
    ```
    Room → RoomType
    Room → RoomSize
@@ -61,7 +63,7 @@ Room-Centric model
    - no single source of truth
    - normilized not enough
 
-5. Rooms of same type share same features.
+6. Rooms of same type share same features.
    ```
    Room → Feature
    ```
@@ -70,24 +72,24 @@ Room-Centric model
    - Feature duplication. - duplication
    - bad normalization
   
-6. Room type has specific bed setup.
+7. Room type has specific bed setup.
    ```
    Room → RoomSize
    ```
 
    - confused room size with bed configuration: Cannot model: 2 single + 1 king
   
-7. Room type has base price.
+8. Room type has base price.
    ``` Room.BasePrice ```
 
    - Price belongs to individual room.
    - bad normalization should be part of room type configuration  
    
-8. Booking extras.
+9. Booking extras.
 
    - Implicitly mixing into Feature. should be different concepts
   
-9. Total booking price calculation.
+10. Total booking price calculation.
    ```
    Booking.TotalPrice
    Room.BasePrice
@@ -95,7 +97,7 @@ Room-Centric model
 
    - week amd limited, no extras, etc
 
-10. Paid/unpaid booking.
+11. Paid/unpaid booking.
    ```Booking → Payment → PayStatus```
 
    - works, but better add date
@@ -106,4 +108,116 @@ Room-Centric model
     - works
 
 12. Guest info. - OK
-    
+
+## New Data Design
+RoomType-centric
+![roombooking](Hotel.png)
+1. A hotel has many rooms
+   ```
+   Hotel → Room
+   ```
+
+   - address exists
+   - ownership exists
+   - room numbering scoped by hotel
+     
+2. Guest can make booking with dates and guest counts.
+   ```
+   Booking
+    - Guest
+    - CheckIn
+    - CheckOut
+    - Adults
+    - Kids
+   
+   BookingRoom
+    - Room
+   ```
+
+3. Guest can book multiple rooms.
+   ```
+   Booking → BookingRoom → Room
+   ```
+
+   - support booking multiple rooms in one booking
+
+4. Room has a type/class.
+   ```
+   Room → RoomType
+   RoomType.Size
+   ```
+
+   - Single source of truth.
+
+5. Rooms of same type share same features.
+   ```
+   RoomType → Feature
+   ```
+
+   - Standard room type owns features.
+   - All Standard rooms inherit them.
+
+6. Room type has specific bed setup.
+   ```
+   RoomType → RoomTypeBed → BedType
+   ```
+
+   - support diffirent configurations
+   ```
+   Deluxe:
+      1 king
+
+   Family:
+      2 single
+
+   Suite:
+      1 king + 2 single
+   ```
+
+7. Room type has base price.
+   ```
+   RoomType.BasePrice
+   ```
+
+   - All Deluxe rooms share price model.
+
+8. Booking extras.
+   ```
+   Booking → BookingExtra → Extra
+   ```
+
+   - Correct separation.
+      - Feature = room capability
+      - Extra = purchased service
+
+9. Total booking price calculation.
+   ```
+   Booking.TotalPrice
+   BookingRoom.PricePerNight
+   BookingExtra
+   RoomType.BasePrice
+   ```
+
+   - Full pricing model.
+
+10. Paid/unpaid booking.
+   ```
+   Amount
+   PaidAt
+   Status
+   ```
+
+   - better history
+
+11. Room availability and cleaning.
+   ```
+   Room → RoomStatus
+   ```
+
+12. Guest info.
+   ```
+   Guest
+   Name
+   Email
+   Phone
+   ```
