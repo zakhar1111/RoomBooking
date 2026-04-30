@@ -19,7 +19,7 @@ the base price for the selected room type , and any extras.
 
 ## Data Design
 Room-Centric model
-![roombooking](Hotel.png)
+![roombooking](Hotel_old.png)
 
 ## Trade-offs
 1. A hotel has many rooms
