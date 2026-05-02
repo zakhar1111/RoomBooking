@@ -17,93 +17,116 @@ the base price for the selected room type , and any extras.
 12. A guest will need to provide their name, email address, and phone number when making a booking
 
 
-## Data Design
-Room-Centric model
-![roombooking](Hotel.png)
 
-## Trade-offs
+## Data Design
+RoomType-centric
+![roombooking](Hotel.png)
 1. A hotel has many rooms
    ```
-   Booking → Room
-   Room has no Hotel
+   Hotel → Room
    ```
-   - room exist independently
-   - no hotel ownership
-   - bad for nulti-hotel systems
 
+   - address exists
+   - ownership exists
+   - room numbering scoped by hotel
+     
 2. Guest can make booking with dates and guest counts.
    ```
    Booking
     - Guest
-    - Room
     - CheckIn
     - CheckOut
     - Adults
     - Kids
-   ```
    
-   - support to specify date, number_of_people for the booking
-
-3. Guest can book multiple rooms
-   ```
-   Booking → Room
+   BookingRoom
+    - Room
    ```
 
-   - only one room through the booking
-  
+3. Guest can book multiple rooms.
+   ```
+   Booking → BookingRoom → Room
+   ```
+
+   - support booking multiple rooms in one booking
+
 4. Room has a type/class.
    ```
    Room → RoomType
-   Room → RoomSize
+   RoomType.Size
    ```
 
-   - Type and size split into separate concepts. ( this brings duplication)
-   - no single source of truth
-   - normilized not enough
+   - Single source of truth.
 
 5. Rooms of same type share same features.
    ```
-   Room → Feature
+   RoomType → Feature
    ```
 
-   - Each room has explicit features.
-   - Feature duplication. - duplication
-   - bad normalization
-  
+   - Standard room type owns features.
+   - All Standard rooms inherit them.
+
 6. Room type has specific bed setup.
    ```
-   Room → RoomSize
+   RoomType → RoomTypeBed → BedType
    ```
 
-   - confused room size with bed configuration: Cannot model: 2 single + 1 king
-  
+   - support diffirent configurations
+   ```
+   Deluxe:
+      1 king
+
+   Family:
+      2 single
+
+   Suite:
+      1 king + 2 single
+   ```
+
 7. Room type has base price.
-   ``` Room.BasePrice ```
+   ```
+   RoomType.BasePrice
+   ```
 
-   - Price belongs to individual room.
-   - bad normalization should be part of room type configuration  
-   
+   - All Deluxe rooms share price model.
+
 8. Booking extras.
+   ```
+   Booking → BookingExtra → Extra
+   ```
 
-   - Implicitly mixing into Feature. should be different concepts
-  
+   - Correct separation.
+      - Feature = room capability
+      - Extra = purchased service
+
 9. Total booking price calculation.
    ```
    Booking.TotalPrice
-   Room.BasePrice
+   BookingRoom.PricePerNight
+   BookingExtra
+   RoomType.BasePrice
    ```
 
-   - week amd limited, no extras, etc
+   - Full pricing model.
 
 10. Paid/unpaid booking.
-   ```Booking → Payment → PayStatus```
+   ```
+   Amount
+   PaidAt
+   Status
+   ```
 
-   - works, but better add date
+   - better history
 
 11. Room availability and cleaning.
-    ```Room → RoomStatus```
+   ```
+   Room → RoomStatus
+   ```
 
-    - works
-
-12. Guest info. - OK
-    
+12. Guest info.
+   ```
+   Guest
+   Name
+   Email
+   Phone
+   ```
