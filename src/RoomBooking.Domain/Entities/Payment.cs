@@ -1,4 +1,4 @@
-﻿namespace RoomBooking.Domain;
+﻿namespace RoomBooking.Domain.Entities;
 
 public class Payment
 { 
@@ -8,6 +8,6 @@ public class Payment
     public DateTime PayAt { get; set; }
 
 
-    public int BookingStatusId { get; set; }
-    public int PayStatusId { get; set; }
+    public int BookingStatusId { get; set; } //FK
+    public int PayStatusId { get; set; }  //FK
 }

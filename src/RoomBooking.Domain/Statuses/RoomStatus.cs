@@ -1,6 +1,6 @@
-﻿namespace RoomBooking.Domain;
+﻿namespace RoomBooking.Domain.Statuses;
 
-public class  Feature
+public class RoomStatus 
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace RoomBooking.Domain;
+﻿namespace RoomBooking.Domain.Types;
 
 public class RoomType
 {

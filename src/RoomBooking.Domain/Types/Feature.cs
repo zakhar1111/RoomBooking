@@ -1,7 +1,7 @@
-﻿namespace RoomBooking.Domain;
+﻿namespace RoomBooking.Domain.Types;
 
-public class PayStatus
-{ 
+public class  Feature
+{
     public int Id { get; set; }
     public string Name { get; set; }
 }
