@@ -8,6 +8,6 @@ public class Payment
     public DateTime PayAt { get; set; }
 
 
-    public int BookingStatusId { get; set; } //FK
+    public int BookingId { get; set; } //FK
     public int PayStatusId { get; set; }  //FK
 }
