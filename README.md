@@ -2,7 +2,7 @@
 Rooms Booking service
 - [Bound Context](bound_context.md)
 - [Requirements](requirements.md)
-- Use cases
+- [Use cases](use_cases.md)
 - [Data Design](data_design.md)
 - State Machine
 - Aggregates
