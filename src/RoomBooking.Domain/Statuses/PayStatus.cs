@@ -7,9 +7,5 @@ public enum PayStatusEnum
     Paid,
     Failed,
     Refunded,
-    PendingPayment,
-    Unpaid,
-    PartiallyPaid,
-    FullyPaid,
-    Canceled
+    Canceled = 9
 }
