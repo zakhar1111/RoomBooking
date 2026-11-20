@@ -8,7 +8,6 @@ public class BookingStatus
 
 public enum BookingStatusEnum
 {
-    PendingPayment,
     Confirmed,
     CheckIn,
     CheckOut,
