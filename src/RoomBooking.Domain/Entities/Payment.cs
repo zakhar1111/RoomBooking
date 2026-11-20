@@ -1,5 +1,7 @@
 ﻿namespace RoomBooking.Domain.Entities;
 
+using RoomBooking.Domain.Statuses;
+
 public class Payment
 { 
     public int Id { get; set; }
@@ -9,5 +11,5 @@ public class Payment
 
 
     public int BookingId { get; set; } //FK
-    public int PayStatusId { get; set; }  //FK
+    public PayStatusEnum Status { get; set; } = PayStatusEnum.Created;
 }

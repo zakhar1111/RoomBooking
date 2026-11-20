@@ -1,5 +1,7 @@
 ﻿namespace RoomBooking.Domain.Entities;
 
+using RoomBooking.Domain.Statuses;
+
 public class Booking
 {
     public int Id { get; set; }
@@ -13,5 +15,5 @@ public class Booking
 
 
     public int GuestId { get; set; } //FK
-    public int BookingStatusId { get; set; } //FK
+    public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Draft;
 }
