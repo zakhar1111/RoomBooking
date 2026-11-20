@@ -17,12 +17,15 @@ public class Booking
     public int GuestId { get; set; } //FK
     public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Draft;
 
-    // Supply the complete payment history for this booking.
+    // Requires an assigned booking ID and the complete payment history for this booking.
     // Refunded means fully refunded; only Paid transactions contribute to the balance.
     // A negative balance represents an overpayment.
     public decimal GetBalanceDue(IEnumerable<Payment> payments)
     {
         ArgumentNullException.ThrowIfNull(payments);
+
+        if (Id == default)
+            throw new InvalidOperationException("A booking must have an assigned ID before calculating its payment balance.");
 
         var netPaid = payments
             .Where(payment => payment.BookingId == Id && payment.Status == PayStatusEnum.Paid)
