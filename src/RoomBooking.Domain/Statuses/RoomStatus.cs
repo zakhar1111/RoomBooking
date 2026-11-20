@@ -3,13 +3,18 @@
 public class RoomStatus 
 {
     public int Id { get; set; }
-    public RoomStatusEnum Name { get; set; }
+    public HousekeepingStatus HousekeepingStatus { get; set; }
+    public RoomOperationalStatus OperationalStatus { get; set; }
 }
 
-public enum RoomStatusEnum
+public enum HousekeepingStatus
 {
-    Clean,
     Dirty,
-    Maintenance,
+    Clean
+}
+
+public enum RoomOperationalStatus
+{
+    InService,
     OutOfService
 }
